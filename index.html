@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Cube Effect</title>
+    <style>
+        body {
+            display: flex;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle, rgba(0, 0, 0, 0.9), rgba(50, 50, 50, 0.5), rgba(100, 100, 100, 0.3));
+            animation: backgroundMove 20s infinite linear;
+            margin: 0;
+            overflow: hidden;
+            perspective: 1000px;
+        }
+        .cube {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            transform-style: preserve-3d;
+            animation: spin 3s infinite linear;
+        }
+        .face {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border: 2px solid #fff;
+            text-align: center;
+            line-height: 200px;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        .front  { background: linear-gradient(135deg, #FF0000, #FF6347); transform: translateZ(100px); }
+        .back   { background: linear-gradient(135deg, #00FF00, #32CD32); transform: rotateY(180deg) translateZ(100px); }
+        .right  { background: linear-gradient(135deg, #0000FF, #1E90FF); transform: rotateY(90deg) translateZ(100px); }
+        .left   { background: linear-gradient(135deg, #FF00FF, #DA70D6); transform: rotateY(-90deg) translateZ(100px); }
+        .top    { background: linear-gradient(135deg, #FFFF00, #FFD700); transform: rotateX(90deg) translateZ(100px); }
+        .bottom { background: linear-gradient(135deg, #00FFFF, #40E0D0); transform: rotateX(-90deg) translateZ(100px); }
+
+        @keyframes spin {
+            from { transform: rotateX(0) rotateY(0); }
+            to { transform: rotateX(360deg) rotateY(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="cube">
+        <div class="face front">s</div>
+        <div class="face back">SHIVAM</div>
+        <div class="face right">S</div>
+        <div class="face left">S</div>
+        <div class="face top">S</div>
+        <div class="face bottom">s</div>
+    </div>
+
+    <button id="toggleButton" style="position: absolute; bottom: 20px; padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">Stop</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cube = document.querySelector('.cube');
+            const button = document.getElementById('toggleButton');
+            let isSpinning = true;
+            let speed = 3; 
+
+            function increaseSpeed() {
+                if (speed > 0.1) {
+                    speed *= 0.9; // Gradually increase speed
+                    cube.style.animation = `spin ${speed}s infinite linear`;
+                    setTimeout(increaseSpeed, 1000); // Speed up every second
+                }
+            }
+            increaseSpeed();
+
+            button.addEventListener('click', () => {
+                if (isSpinning) {
+                    cube.style.animation = 'none';
+                } else {
+                    cube.style.animation = `spin ${speed}s infinite linear`;
+                }
+                isSpinning = !isSpinning;
+            });
+        });
+    </script>
+</body>
+</html>
